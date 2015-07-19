@@ -106,6 +106,7 @@ public class MapsActivity extends FragmentActivity {
 
     public void mark(View view) {
         currentLocation = mMap.getMyLocation();
+        if (currentLocation != null) {
         loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         setMark = new MarkerOptions().position(loc);
         markMarker = mMap.addMarker(setMark);
@@ -119,10 +120,11 @@ public class MapsActivity extends FragmentActivity {
         double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
-    }
+    }}
 
     public void miller(View view) {
         currentLocation = mMap.getMyLocation();
+        if (currentLocation != null) {
         loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         setMiller = new MarkerOptions().position(loc);
         millerMarker = mMap.addMarker(setMiller);
@@ -136,10 +138,11 @@ public class MapsActivity extends FragmentActivity {
         double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
-    }
+    }}
 
     public void steve(View view) {
         currentLocation = mMap.getMyLocation();
+        if (currentLocation != null) {
         loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         setSteve = new MarkerOptions().position(loc);
         steveMarker = mMap.addMarker(setSteve);
@@ -153,7 +156,7 @@ public class MapsActivity extends FragmentActivity {
         double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
-    }
+    }}
 
     @Override
     protected void onResume() {
@@ -215,7 +218,7 @@ public class MapsActivity extends FragmentActivity {
         double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
         //starting location (current location) and zoom level
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f)); //}
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
         //built-in toolbar disabled
         mMap.getUiSettings().setMapToolbarEnabled(false);
 

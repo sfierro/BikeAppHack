@@ -15,7 +15,39 @@
         />
 
 
-    
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/mark"
+        android:background="@null"
+        android:layout_margin="2dp"
+        android:onClick="mark"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/steve"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/mark"
+        android:id="@+id/steve"
+        android:background="@null"
+        android:layout_margin="2dp"
+        android:onClick="steve"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/miller"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/steve"
+        android:id="@+id/miller"
+        android:background="@null"
+        android:layout_margin="2dp"
+        android:onClick="miller"/>
 
     <Button
         android:layout_margin="5dp"
@@ -23,9 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="Standard"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:id="@+id/standard"
-        android:layout_toLeftOf="@+id/hybrid"
+        android:layout_above="@+id/hybrid"
         android:background="@drawable/btn_background"
         android:onClick="standardBtn"
         />

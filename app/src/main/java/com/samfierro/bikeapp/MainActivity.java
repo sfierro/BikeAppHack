@@ -16,6 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.samfierro.bikeapp.MapsActivity;
 import com.samfierro.bikeapp.R;
 
@@ -57,16 +61,38 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Enable Local Datastore.
+
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "iWsUz0OqODCBHcKXETNtIyY21yrJAzSKa4BhKVXQ", "5xRSGufM1iVylXBC46hXIvi54lWpnYVRaqhGaQT0");
+
     }
 
     public void enterApp(View view) {
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+//        //retrieve object by id
+//        query.getInBackground("IcQLyqVTXA", new GetCallback<ParseObject>() {
+//            public void done(ParseObject founderObject, com.parse.ParseException e) {
+//                if (e == null) {
+//                    founderObject.put("Lat", "33.126782");
+//                    founderObject.put("Lon", "-117.267966");
+//                    founderObject.saveInBackground();
+//                }}});
 
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-        startActivity(intent);
+//                ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+//        //retrieve object by id
+//        query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
+//            public void done(ParseObject founderObject, com.parse.ParseException e) {
+//                if (e == null) {
+//                    founderObject.put("Lat", "33.127504");
+//                    founderObject.put("Lon", "-117.265336");
+//                    founderObject.saveInBackground();
+//                }}});
 
-    }
+                        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                        startActivity(intent);
 
-}
+                }}
 
 
 

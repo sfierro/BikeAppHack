@@ -6,8 +6,10 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,9 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.GetCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -40,7 +45,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MapsActivity extends FragmentActivity {
@@ -83,6 +92,13 @@ public class MapsActivity extends FragmentActivity {
     private LatLng coordinate;
     String[] tokens;
     ArrayList<Marker> markerList = new ArrayList<Marker>();
+    Date dateS;
+    Date dateD;
+    Date dateM;
+    //HashMap<String,Marker> hm = new HashMap<String,Marker>();
+    //Fragment f;
+    String new_lat;
+    String new_lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,57 +121,111 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void mark(View view) {
-        currentLocation = mMap.getMyLocation();
-        if (currentLocation != null) {
-        loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        setMark = new MarkerOptions().position(loc);
-        markMarker = mMap.addMarker(setMark);
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
-        Criteria criteria = new Criteria();
+        if (markMarker != null) {markMarker.remove();}
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String provider = locationManager.NETWORK_PROVIDER;
         Location location = locationManager.getLastKnownLocation(provider);
-        double lat =  location.getLatitude();
-        double lng = location.getLongitude();
+        final double lat =  location.getLatitude();
+        final double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
-    }}
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+        if (location != null) {
+            setMark = new MarkerOptions().position(coordinate);
+            markMarker = mMap.addMarker(setMark);
+            SupportMapFragment smf = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            Fragment f = (MapsActivity.this.getSupportFragmentManager()).findFragmentById(R.id.map);
+            mMap = smf.getMap();
+            mMap.setMyLocationEnabled(true);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+            f.setRetainInstance(true);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+            //retrieve object by id
+            query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
+                public void done(ParseObject founderObject, com.parse.ParseException e) {
+                    if (e == null) {
+                        founderObject.put("Lat", "" + lat);
+                        founderObject.put("Lon", "" + lng);
+                        founderObject.saveInBackground();
+                    }
+                }
+            });
+
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            //get current date time with Date()
+            dateD = new Date();
+            System.out.println(dateFormat.format(dateD));
+
+        }}
 
     public void miller(View view) {
-        currentLocation = mMap.getMyLocation();
-        if (currentLocation != null) {
-        loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        setMiller = new MarkerOptions().position(loc);
-        millerMarker = mMap.addMarker(setMiller);
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
-        Criteria criteria = new Criteria();
+        if (millerMarker != null) {millerMarker.remove();}
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String provider = locationManager.NETWORK_PROVIDER;
         Location location = locationManager.getLastKnownLocation(provider);
-        double lat =  location.getLatitude();
-        double lng = location.getLongitude();
+        final double lat =  location.getLatitude();
+        final double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+        if (location != null) {
+            setMiller = new MarkerOptions().position(coordinate);
+            millerMarker = mMap.addMarker(setMiller);
+            SupportMapFragment smf = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            Fragment f = (MapsActivity.this.getSupportFragmentManager()).findFragmentById(R.id.map);
+            mMap = smf.getMap();
+            mMap.setMyLocationEnabled(true);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+            f.setRetainInstance(true);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+            //retrieve object by id
+            query.getInBackground("IcQLyqVTXA", new GetCallback<ParseObject>() {
+                public void done(ParseObject founderObject, com.parse.ParseException e) {
+                    if (e == null) {
+                        founderObject.put("Lat", "" + lat);
+                        founderObject.put("Lon", "" + lng);
+                        founderObject.saveInBackground();
+                    }
+                }
+            });
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            //get current date time with Date()
+            dateM = new Date();
+            System.out.println(dateFormat.format(dateM));
     }}
 
     public void steve(View view) {
-        currentLocation = mMap.getMyLocation();
-        if (currentLocation != null) {
-        loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        setSteve = new MarkerOptions().position(loc);
-        steveMarker = mMap.addMarker(setSteve);
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
-        Criteria criteria = new Criteria();
+        if (steveMarker != null) {steveMarker.remove();}
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String provider = locationManager.NETWORK_PROVIDER;
         Location location = locationManager.getLastKnownLocation(provider);
-        double lat =  location.getLatitude();
-        double lng = location.getLongitude();
+        final double lat =  location.getLatitude();
+        final double lng = location.getLongitude();
         coordinate = new LatLng(lat, lng);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+        if (location != null) {
+        setSteve = new MarkerOptions().position(coordinate);
+        steveMarker = mMap.addMarker(setSteve);
+            SupportMapFragment smf = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            Fragment f = (MapsActivity.this.getSupportFragmentManager()).findFragmentById(R.id.map);
+            mMap = smf.getMap();
+            mMap.setMyLocationEnabled(true);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+            f.setRetainInstance(true);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+        //retrieve object by id
+        query.getInBackground("EDj7cM5Lw3", new GetCallback<ParseObject>() {
+            public void done(ParseObject founderObject, com.parse.ParseException e) {
+                if (e == null) {
+                    founderObject.put("Lat", "" + lat);
+                    founderObject.put("Lon", "" + lng);
+                    founderObject.saveInBackground();
+                }
+            }
+        });
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            //get current date time with Date()
+            dateS = new Date();
+            System.out.println(dateFormat.format(dateS));
     }}
 
     @Override
@@ -327,12 +397,80 @@ public class MapsActivity extends FragmentActivity {
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ten));
         m10 = mMap.addMarker(marker10);
 
+        if (markMarker == null) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+            //retrieve object by id
+            query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
+                public void done(ParseObject founderObject, com.parse.ParseException e) {
+                    if (e == null) {
+                        new_lat = founderObject.getString("Lat");
+                        new_lng = founderObject.getString("Lon");
+                        founderObject.saveInBackground();
+                        Double l = Double.parseDouble(new_lat);
+                        Double n = Double.parseDouble(new_lng);
+                        LatLng place = new LatLng(l,n);
+                        setMark = new MarkerOptions().position(place);
+                        markMarker = mMap.addMarker(setMark);
+                        java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        //get current date time with Date()
+                        dateD = new Date();
+                        System.out.println(dateFormat.format(dateD));
+                    }}
+            });
+        }
+
+        if (millerMarker == null) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+            //retrieve object by id
+            query.getInBackground("IcQLyqVTXA", new GetCallback<ParseObject>() {
+                public void done(ParseObject founderObject, com.parse.ParseException e) {
+                    if (e == null) {
+                        new_lat = founderObject.getString("Lat");
+                        new_lng = founderObject.getString("Lon");
+                        founderObject.saveInBackground();
+                        Double l = Double.parseDouble(new_lat);
+                        Double n = Double.parseDouble(new_lng);
+                        LatLng place = new LatLng(l,n);
+                        setMiller = new MarkerOptions().position(place);
+                        millerMarker = mMap.addMarker(setMiller);
+                        java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        //get current date time with Date()
+                        dateM = new Date();
+                        System.out.println(dateFormat.format(dateM));
+                    }}
+            });
+        }
+
+        if (steveMarker == null) {
+            Toast.makeText(MapsActivity.this,"HEREEEEEEEEE",Toast.LENGTH_LONG).show();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+            //retrieve object by id
+            query.getInBackground("EDj7cM5Lw3", new GetCallback<ParseObject>() {
+                public void done(ParseObject founderObject, com.parse.ParseException e) {
+                    if (e == null) {
+                        new_lat = founderObject.getString("Lat");
+                        new_lng = founderObject.getString("Lon");
+                        founderObject.saveInBackground();
+                        Double l = Double.parseDouble(new_lat);
+                        Double n = Double.parseDouble(new_lng);
+                        LatLng place = new LatLng(l,n);
+                        setSteve = new MarkerOptions().position(place);
+                        steveMarker = mMap.addMarker(setSteve);
+                        java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        //get current date time with Date()
+                        dateS = new Date();
+                        System.out.println(dateFormat.format(dateS));
+                    }}
+            });
+        }
+
         markerList.add(b1f);
         markerList.add(b1b);
         markerList.add(b3);
         markerList.add(b4);
         markerList.add(b10);
         markerList.add(bw);
+
         new GetData().execute();
         //sets camera change listener
         mMap.setOnCameraChangeListener(getCameraChangeListener());
@@ -342,8 +480,7 @@ public class MapsActivity extends FragmentActivity {
             public boolean onMarkerClick(Marker arg0) {
                 //when a marker is clicked it gets data from server to update number of bikes
                 new GetData().execute();
-                //Toast.makeText(MapsActivity.this,infoString,Toast.LENGTH_LONG).show();
-                //+number grabbed from server);
+
                 b1f.setTitle("Bikes: ");
                 b1b.setTitle("Bikes: ");
                 b10.setTitle("Bikes: ");
@@ -351,15 +488,79 @@ public class MapsActivity extends FragmentActivity {
                 b3.setTitle("Bikes: ");
                 b4.setTitle("Bikes: ");
 
+                final ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+                //retrieve object by id
                 if (markMarker != null) {
-                    markMarker.setTitle("Spotted!");
-                    markMarker.setSnippet("Mark Dankberg");}
+                query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
+                    public void done(ParseObject founderObject, com.parse.ParseException e) {
+                        if (e == null) {
+                            new_lat = founderObject.getString("Lat");
+                            new_lng = founderObject.getString("Lon");
+                            founderObject.saveInBackground();
+                            Double l = Double.parseDouble(new_lat);
+                            Double n = Double.parseDouble(new_lng);
+                            LatLng place = new LatLng(l,n);
+                            if (!(markMarker.getPosition().toString().equals(place.toString()))) {
+                                markMarker.remove();
+                                setMark = new MarkerOptions().position(place);
+                                markMarker = mMap.addMarker(setMark);
+
+                }
+                        }}
+                });
+                    query.cancel();}
+                final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Founder");
                 if (millerMarker != null) {
-                    millerMarker.setTitle("Spotted!");
-                    millerMarker.setSnippet("Mark Miller");}
+                    query2.getInBackground("IcQLyqVTXA", new GetCallback<ParseObject>() {
+                        public void done(ParseObject founderObject, com.parse.ParseException e) {
+                            if (e == null) {
+                                new_lat = founderObject.getString("Lat");
+                                new_lng = founderObject.getString("Lon");
+                                founderObject.saveInBackground();
+                                Double l = Double.parseDouble(new_lat);
+                                Double n = Double.parseDouble(new_lng);
+                                LatLng place = new LatLng(l, n);
+                                if (!(millerMarker.getPosition().toString().equals(place.toString()))) {
+                                    millerMarker.remove();
+                                    setMiller = new MarkerOptions().position(place);
+                                    millerMarker = mMap.addMarker(setMiller);
+
+                                }
+                            }
+                        }
+                    });
+                    query2.cancel();
+                }
+                final ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Founder");
                 if (steveMarker != null) {
-                    steveMarker.setTitle("Spotted!");
-                    steveMarker.setSnippet("Steve Hart");}
+                query3.getInBackground("EDj7cM5Lw3", new GetCallback<ParseObject>() {
+                    public void done(ParseObject founderObject, com.parse.ParseException e) {
+                        if (e == null) {
+                            new_lat = founderObject.getString("Lat");
+                            new_lng = founderObject.getString("Lon");
+                            founderObject.saveInBackground();
+                            Double l = Double.parseDouble(new_lat);
+                            Double n = Double.parseDouble(new_lng);
+                            LatLng place = new LatLng(l,n);
+                            if (!(steveMarker.getPosition().toString().equals(place.toString()))) {
+                                steveMarker.remove();
+                                setSteve = new MarkerOptions().position(place);
+                                steveMarker = mMap.addMarker(setSteve);
+
+                            }
+                        }}
+                });
+                    query3.cancel();}
+
+                if (markMarker != null) {
+                    markMarker.setTitle("Spotted! Mark Dankberg");
+                    markMarker.setSnippet(dateD.toString());}
+                if (millerMarker != null) {
+                    millerMarker.setTitle("Spotted! Mark Miller");
+                    millerMarker.setSnippet(dateM.toString());}
+                if (steveMarker != null) {
+                    steveMarker.setTitle("Spotted! Steve Hart");
+                    steveMarker.setSnippet(dateS.toString());}
 
                 int i = 0;
                 for (Marker marker : markerList) {
@@ -393,16 +594,17 @@ public class MapsActivity extends FragmentActivity {
                         break;
                 }
 
-                String snip = arg0.getSnippet();
+                String snip = arg0.getTitle();
                 if (snip != null) {
                     switch (snip) {
-                        case "Mark Dankberg":
-                            markMarker.showInfoWindow();
+                        case "Spotted! Mark Dankberg":
+                            if (!markMarker.isInfoWindowShown()) {
+                            markMarker.showInfoWindow();}
                             break;
-                        case "Mark Miller":
+                        case "Spotted! Mark Miller":
                             millerMarker.showInfoWindow();
                             break;
-                        case "Steve Hart":
+                        case "Spotted! Steve Hart":
                             steveMarker.showInfoWindow();
                             break;
                     }

@@ -1,6 +1,7 @@
 package com.samfierro.bikeapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -39,6 +40,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MapsActivity extends FragmentActivity {
@@ -78,6 +80,9 @@ public class MapsActivity extends FragmentActivity {
     MarkerOptions setMark;
     MarkerOptions setMiller;
     MarkerOptions setSteve;
+    private LatLng coordinate;
+    String[] tokens;
+    ArrayList<Marker> markerList = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,7 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         g.setVisible(false);
+        //Toast.makeText(this, "hello", Toast.LENGTH_LONG).show();
     }
 
     public void standardBtn(View view) {
@@ -103,6 +109,16 @@ public class MapsActivity extends FragmentActivity {
         loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         setMark = new MarkerOptions().position(loc);
         markMarker = mMap.addMarker(setMark);
+        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        mMap.setMyLocationEnabled(true);
+        Criteria criteria = new Criteria();
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.NETWORK_PROVIDER;
+        Location location = locationManager.getLastKnownLocation(provider);
+        double lat =  location.getLatitude();
+        double lng = location.getLongitude();
+        coordinate = new LatLng(lat, lng);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
     }
 
     public void miller(View view) {
@@ -110,6 +126,16 @@ public class MapsActivity extends FragmentActivity {
         loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         setMiller = new MarkerOptions().position(loc);
         millerMarker = mMap.addMarker(setMiller);
+        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        mMap.setMyLocationEnabled(true);
+        Criteria criteria = new Criteria();
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.NETWORK_PROVIDER;
+        Location location = locationManager.getLastKnownLocation(provider);
+        double lat =  location.getLatitude();
+        double lng = location.getLongitude();
+        coordinate = new LatLng(lat, lng);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
     }
 
     public void steve(View view) {
@@ -117,6 +143,16 @@ public class MapsActivity extends FragmentActivity {
         loc = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         setSteve = new MarkerOptions().position(loc);
         steveMarker = mMap.addMarker(setSteve);
+        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        mMap.setMyLocationEnabled(true);
+        Criteria criteria = new Criteria();
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.NETWORK_PROVIDER;
+        Location location = locationManager.getLastKnownLocation(provider);
+        double lat =  location.getLatitude();
+        double lng = location.getLongitude();
+        coordinate = new LatLng(lat, lng);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
     }
 
     @Override
@@ -171,13 +207,15 @@ public class MapsActivity extends FragmentActivity {
         mMap.setMyLocationEnabled(true);
         Criteria criteria = new Criteria();
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(criteria, false);
+        //String provider = locationManager.getBestProvider(criteria, false);
+        String provider = LocationManager.NETWORK_PROVIDER;
+        //if (locationManager.getLastKnownLocation(provider) != null){
         Location location = locationManager.getLastKnownLocation(provider);
         double lat =  location.getLatitude();
         double lng = location.getLongitude();
-        LatLng coordinate = new LatLng(lat, lng);
+        coordinate = new LatLng(lat, lng);
         //starting location (current location) and zoom level
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 17.0f)); //}
         //built-in toolbar disabled
         mMap.getUiSettings().setMapToolbarEnabled(false);
 
@@ -215,7 +253,7 @@ public class MapsActivity extends FragmentActivity {
 
         //adding bldg markers
         marker1 = new MarkerOptions()
-                .position(new LatLng(33.126797, -117.267087))
+                .position(new LatLng(33.126959, -117.267231))
                 .title("Bldg 1")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.one));
         m1 = mMap.addMarker(marker1);
@@ -233,7 +271,7 @@ public class MapsActivity extends FragmentActivity {
         m3 = mMap.addMarker(marker3);
 
         marker4 = new MarkerOptions()
-                .position(new LatLng(33.126306, -117.268821))
+                .position(new LatLng(33.126019, -117.268828))
                 .title("Bldg 4")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.four));
         m4 = mMap.addMarker(marker4);
@@ -286,6 +324,13 @@ public class MapsActivity extends FragmentActivity {
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ten));
         m10 = mMap.addMarker(marker10);
 
+        markerList.add(b1f);
+        markerList.add(b1b);
+        markerList.add(b3);
+        markerList.add(b4);
+        markerList.add(b10);
+        markerList.add(bw);
+        new GetData().execute();
         //sets camera change listener
         mMap.setOnCameraChangeListener(getCameraChangeListener());
         //sets marker click listener
@@ -293,8 +338,6 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public boolean onMarkerClick(Marker arg0) {
                 //when a marker is clicked it gets data from server to update number of bikes
-
-                ///////UNCOMMENT TO GET DATA\\\\\\
                 new GetData().execute();
                 //Toast.makeText(MapsActivity.this,infoString,Toast.LENGTH_LONG).show();
                 //+number grabbed from server);
@@ -314,6 +357,16 @@ public class MapsActivity extends FragmentActivity {
                 if (steveMarker != null) {
                     steveMarker.setTitle("Spotted!");
                     steveMarker.setSnippet("Steve Hart");}
+
+                int i = 0;
+                for (Marker marker : markerList) {
+                    String str = tokens[i].substring(6);
+                    if (str.charAt(0) == '0') {
+                        str = str.substring(1);
+                    }
+                    marker.setTitle("Bikes: " + str);
+                    i++;
+                }
 
                 String pos = arg0.getPosition().toString();
                 switch (pos) {
@@ -356,40 +409,52 @@ public class MapsActivity extends FragmentActivity {
                 if (title != null) {
                     switch (title) {
                         case "Bldg 1":
-                            //put image of floor plans here
+                            Intent intent = new Intent(MapsActivity.this,BldgOne.class);
+                            startActivity(intent);
                             break;
                         case "Bldg 2":
-                            //body
+                            Intent intent2 = new Intent(MapsActivity.this,BldgTwo.class);
+                            startActivity(intent2);
                             break;
                         case "Bldg 3":
-                            //body
+                            Intent intent3 = new Intent(MapsActivity.this,BldgThree.class);
+                            startActivity(intent3);
                             break;
                         case "Bldg 4":
-                            //body
+                            Intent intent4 = new Intent(MapsActivity.this,BldgFour.class);
+                            startActivity(intent4);
                             break;
                         case "Bldg 5":
-                            //body
+                            Intent intent5 = new Intent(MapsActivity.this,BldgFive.class);
+                            startActivity(intent5);
                             break;
                         case "Bldg 6":
-                            //body
+                            Intent intent6 = new Intent(MapsActivity.this,BldgSix.class);
+                            startActivity(intent6);
                             break;
                         case "Bldg 6.5":
-                            //body
+                            Intent intent65 = new Intent(MapsActivity.this,BldgSixFive.class);
+                            startActivity(intent65);
                             break;
                         case "Bldg 7":
-                            //body
+                            Intent intent7 = new Intent(MapsActivity.this,BldgSeven.class);
+                            startActivity(intent7);
                             break;
                         case "Bldg 7.5":
-                            //body
+                            Intent intent75 = new Intent(MapsActivity.this,BldgSevenFive.class);
+                            startActivity(intent75);
                             break;
                         case "Bldg 8":
-                            //body
+                            Intent intent8 = new Intent(MapsActivity.this,BldgEight.class);
+                            startActivity(intent8);
                             break;
                         case "Bldg 9":
-                            //body
+                            Intent intent9 = new Intent(MapsActivity.this,BldgNine.class);
+                            startActivity(intent9);
                             break;
                         case "Bldg 10":
-                            //body
+                            Intent intent10 = new Intent(MapsActivity.this,BldgTen.class);
+                            startActivity(intent10);
                             break;
                     }
                 }
@@ -472,6 +537,7 @@ public class MapsActivity extends FragmentActivity {
                 }
                 // Save the results to a String
                 infoString = sb.toString();
+                tokens = infoString.split("[\\s.,]+");
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

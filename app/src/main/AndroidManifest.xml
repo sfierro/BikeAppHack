@@ -17,7 +17,8 @@
         android:allowBackup="true"
         android:icon="@drawable/bike2"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:largeHeap="true">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -31,13 +32,26 @@
 
         </activity>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".BldgOne" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgTwo" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgThree" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgFour" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgFive" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgSixFive" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgSeven" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgEight" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgNine" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgTen" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgSix" android:screenOrientation="landscape"></activity>
+        <activity android:name=".BldgSevenFive" android:screenOrientation="landscape"></activity>
 
     </application>
 

@@ -414,7 +414,6 @@ public class MapsActivity extends FragmentActivity {
                         java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         //get current date time with Date()
                         dateD = new Date();
-                        System.out.println(dateFormat.format(dateD));
                     }}
             });
         }
@@ -436,13 +435,12 @@ public class MapsActivity extends FragmentActivity {
                         java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         //get current date time with Date()
                         dateM = new Date();
-                        System.out.println(dateFormat.format(dateM));
+                        millerMarker.setVisible(false);
                     }}
             });
         }
 
         if (steveMarker == null) {
-            Toast.makeText(MapsActivity.this,"HEREEEEEEEEE",Toast.LENGTH_LONG).show();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
             //retrieve object by id
             query.getInBackground("EDj7cM5Lw3", new GetCallback<ParseObject>() {
@@ -459,7 +457,7 @@ public class MapsActivity extends FragmentActivity {
                         java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         //get current date time with Date()
                         dateS = new Date();
-                        System.out.println(dateFormat.format(dateS));
+                        steveMarker.setVisible(false);
                     }}
             });
         }

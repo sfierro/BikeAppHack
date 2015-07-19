@@ -17,32 +17,102 @@
         android:layout_height="wrap_content"
         android:id="@+id/words"
         android:text="Bike tracking - Building Maps - Founder Finder"
+        android:textSize="17sp"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="20dp"
         android:layout_alignBottom="@+id/logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp"
-        android:textSize="17sp"/>
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/instruction"
+        android:text="Touch these icons to..."
+        android:textSize="22sp"
+        android:paddingTop="30dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bikeintro"
+        android:id="@+id/bike"
+        android:paddingBottom="4dp"
+        android:layout_below="@+id/instruction"
+        android:layout_alignStart="@+id/words" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/oneintro"
+        android:id="@+id/number"
+        android:layout_below="@+id/bike"
+        android:layout_alignRight="@+id/bike"
+        android:paddingRight="2dp"
+        android:paddingBottom="4dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/markintro"
+        android:id="@+id/face"
+        android:layout_below="@+id/number"
+        android:layout_alignStart="@+id/number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/instruction1"
+        android:text="View bike availability."
+        android:textSize="20sp"
+        android:layout_alignBottom="@+id/bike"
+        android:layout_toEndOf="@+id/bike" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/instruction2"
+        android:text="View building floor maps."
+        android:textSize="20sp"
+        android:layout_alignBottom="@+id/number"
+        android:layout_toEndOf="@+id/number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/instruction3"
+        android:text="Record a founder spotting."
+        android:textSize="20sp"
+        android:layout_alignBottom="@+id/face"
+        android:layout_toEndOf="@+id/face" />
 
         <TextView
-            android:paddingTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/entertext"
             android:text="Tap to start"
             android:textSize="28sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/words"
-            android:layout_margin="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="36dp"
+            android:layout_alignBottom="@+id/enterApp"
+            android:layout_toStartOf="@+id/enterApp" />
 
         <ImageButton
-            android:layout_margin="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/entertext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="enterApp"
             android:id="@+id/enterApp"
-            android:src="@drawable/bike3"
-            android:background="@null"/>
+            android:src="@drawable/alien"
+            android:background="@null"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
 
 
 

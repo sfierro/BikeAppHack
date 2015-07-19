@@ -78,14 +78,13 @@ public class MainActivity extends Activity {
 //                    founderObject.put("Lon", "-117.267966");
 //                    founderObject.saveInBackground();
 //                }}});
-
 //                ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
 //        //retrieve object by id
 //        query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
 //            public void done(ParseObject founderObject, com.parse.ParseException e) {
 //                if (e == null) {
-//                    founderObject.put("Lat", "33.127504");
-//                    founderObject.put("Lon", "-117.265336");
+//                    founderObject.put("Lat", "33.127193");
+//                    founderObject.put("Lon", "-117.267320");
 //                    founderObject.saveInBackground();
 //                }}});
 

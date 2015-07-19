@@ -472,6 +472,10 @@ public class MapsActivity extends FragmentActivity {
         new GetData().execute();
         //sets camera change listener
         mMap.setOnCameraChangeListener(getCameraChangeListener());
+
+        //sets location change listener
+        mMap.setOnMyLocationChangeListener(getLocationChangeListener());
+
         //sets marker click listener
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -486,69 +490,6 @@ public class MapsActivity extends FragmentActivity {
                 b3.setTitle("Bikes: ");
                 b4.setTitle("Bikes: ");
 
-                final ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
-                //retrieve object by id
-                if (markMarker != null) {
-                query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
-                    public void done(ParseObject founderObject, com.parse.ParseException e) {
-                        if (e == null) {
-                            new_lat = founderObject.getString("Lat");
-                            new_lng = founderObject.getString("Lon");
-                            founderObject.saveInBackground();
-                            Double l = Double.parseDouble(new_lat);
-                            Double n = Double.parseDouble(new_lng);
-                            LatLng place = new LatLng(l,n);
-                            if (!(markMarker.getPosition().toString().equals(place.toString()))) {
-                                markMarker.remove();
-                                setMark = new MarkerOptions().position(place);
-                                markMarker = mMap.addMarker(setMark);
-
-                }
-                        }}
-                });
-                    query.cancel();}
-                final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Founder");
-                if (millerMarker != null) {
-                    query2.getInBackground("IcQLyqVTXA", new GetCallback<ParseObject>() {
-                        public void done(ParseObject founderObject, com.parse.ParseException e) {
-                            if (e == null) {
-                                new_lat = founderObject.getString("Lat");
-                                new_lng = founderObject.getString("Lon");
-                                founderObject.saveInBackground();
-                                Double l = Double.parseDouble(new_lat);
-                                Double n = Double.parseDouble(new_lng);
-                                LatLng place = new LatLng(l, n);
-                                if (!(millerMarker.getPosition().toString().equals(place.toString()))) {
-                                    millerMarker.remove();
-                                    setMiller = new MarkerOptions().position(place);
-                                    millerMarker = mMap.addMarker(setMiller);
-
-                                }
-                            }
-                        }
-                    });
-                    query2.cancel();
-                }
-                final ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Founder");
-                if (steveMarker != null) {
-                query3.getInBackground("EDj7cM5Lw3", new GetCallback<ParseObject>() {
-                    public void done(ParseObject founderObject, com.parse.ParseException e) {
-                        if (e == null) {
-                            new_lat = founderObject.getString("Lat");
-                            new_lng = founderObject.getString("Lon");
-                            founderObject.saveInBackground();
-                            Double l = Double.parseDouble(new_lat);
-                            Double n = Double.parseDouble(new_lng);
-                            LatLng place = new LatLng(l,n);
-                            if (!(steveMarker.getPosition().toString().equals(place.toString()))) {
-                                steveMarker.remove();
-                                setSteve = new MarkerOptions().position(place);
-                                steveMarker = mMap.addMarker(setSteve);
-
-                            }
-                        }}
-                });
-                    query3.cancel();}
 
                 if (markMarker != null) {
                     markMarker.setTitle("Spotted! Mark Dankberg");
@@ -664,6 +605,79 @@ public class MapsActivity extends FragmentActivity {
                 return true;
             }
         });
+    }
+
+    public GoogleMap.OnMyLocationChangeListener getLocationChangeListener() {
+        return new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+        public void onMyLocationChange(Location lastKnownLocation) {
+                final ParseQuery<ParseObject> query = ParseQuery.getQuery("Founder");
+                //retrieve object by id
+                if (markMarker != null) {
+                    query.getInBackground("mV9fHIS5HX", new GetCallback<ParseObject>() {
+                        public void done(ParseObject founderObject, com.parse.ParseException e) {
+                            if (e == null) {
+                                new_lat = founderObject.getString("Lat");
+                                new_lng = founderObject.getString("Lon");
+                                founderObject.saveInBackground();
+                                Double l = Double.parseDouble(new_lat);
+                                Double n = Double.parseDouble(new_lng);
+                                LatLng place = new LatLng(l,n);
+                                if (!(markMarker.getPosition().toString().equals(place.toString()))) {
+                                    markMarker.remove();
+                                    setMark = new MarkerOptions().position(place);
+                                    markMarker = mMap.addMarker(setMark);
+
+                                }
+                            }}
+                    });
+                    query.cancel();}
+                final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Founder");
+                if (millerMarker != null) {
+                    query2.getInBackground("IcQLyqVTXA", new GetCallback<ParseObject>() {
+                        public void done(ParseObject founderObject, com.parse.ParseException e) {
+                            if (e == null) {
+                                new_lat = founderObject.getString("Lat");
+                                new_lng = founderObject.getString("Lon");
+                                founderObject.saveInBackground();
+                                Double l = Double.parseDouble(new_lat);
+                                Double n = Double.parseDouble(new_lng);
+                                LatLng place = new LatLng(l, n);
+                                if (!(millerMarker.getPosition().toString().equals(place.toString()))) {
+                                    millerMarker.remove();
+                                    setMiller = new MarkerOptions().position(place);
+                                    millerMarker = mMap.addMarker(setMiller);
+
+                                }
+                            }
+                        }
+                    });
+                    query2.cancel();
+                }
+                final ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Founder");
+                if (steveMarker != null) {
+                    query3.getInBackground("EDj7cM5Lw3", new GetCallback<ParseObject>() {
+                        public void done(ParseObject founderObject, com.parse.ParseException e) {
+                            if (e == null) {
+                                new_lat = founderObject.getString("Lat");
+                                new_lng = founderObject.getString("Lon");
+                                founderObject.saveInBackground();
+                                Double l = Double.parseDouble(new_lat);
+                                Double n = Double.parseDouble(new_lng);
+                                LatLng place = new LatLng(l,n);
+                                if (!(steveMarker.getPosition().toString().equals(place.toString()))) {
+                                    steveMarker.remove();
+                                    setSteve = new MarkerOptions().position(place);
+                                    steveMarker = mMap.addMarker(setSteve);
+
+                                }
+                            }}
+                    });
+                    query3.cancel();}
+
+                //Toast.makeText(MapsActivity.this, "im movin!!", Toast.LENGTH_LONG).show();
+            }
+        };
     }
 
     //If user zooms out past a certain level, bldg number icons disappear
